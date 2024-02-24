@@ -134,21 +134,22 @@ examples
 
 
 # Commands which end in .sh
-These are not strictly commands but are instead scripts, scripts are a series of commands which automate tasks for you, commonly tools which we install from git such as Kiauh or Klipper itself.
-commonly these commands will have the form `./toolname/script.sh` this is running a script called script.sg which is located in a folder called toolname under the current working folder
+These are not strictly commands but are instead scripts, scripts are a series of commands which automate tasks for you, commonly tools which we install from git such as Kiauh or Klipper itself provide scripts to simplify initial setup.
+commonly these commands will have the form `./toolname/script.sh` this is running a script called script.sh which is located in a folder called toolname under the current working folder.
 ## Example
 Below we have an example of a sequence from the Kiauh install script
 First move to the home directory (~) and then git is used to get Kiauh into the folder kiauh
 `cd ~ && git clone https://github.com/dw-0/kiauh.git`
 And then run a script that is in that folder
 `./kiauh/kiauh.sh` This runs the script by starting in the current folder . then folder kiauh then a script called kiauh.sh, this assumes that the user is still in the directory ~ from the cd command above
-A common error to see with script launch commands is to try and launch the command whilst in the wrong directory, look carefully at any instructions for and `cd` commands.
+A common error to see with script launch commands is to try and launch the command whilst in the wrong directory, look carefully at any instructions for any `cd` commands.
 
 # Where is my hardware
 ## Block Devices
 The linux operating system maps all hardware devices are files, this may seem a little odd if you are used to how windows handles devices, it is not necessary to understand why this is the case or the advantages or disadvantages here.
 This affords some advantages in our use case.
-The underlying hardware handling on modern linux distribution is performed by a tool called udev. This uses a series of rules to create device files on the disk. All very confusing and "technical" but for us this means that a printer connected by a usb port will appear in the directory `/dev/serial/by-id/` and we can therefore use the `ls` command to look for devices in here, due to the magic of udev these will even frequently have helpful names including klipper or marlin in the device names.
+The underlying hardware handling on modern linux distribution is performed by a tool called udev. This uses a series of rules to create device files on the disk. All very confusing and "technical" but for us this means that a printer connected by a usb port will appear in the directory `/dev/serial/by-id/` and look like a file. We can therefore use the `ls` command to look for printers, due to the magic of udev these will even frequently have helpful names including klipper or marlin in the device names.
+This is helpful to us as these names remain attached to a single serial device, particuatly with usb serial devices the ports can be renamed in their "raw" form of /dev/usbTTY0, /dev/usbTTY1 and simlar depending on the order in which they are detected.
 
 ## Useful Commands
 | Command | Purpose |
@@ -156,6 +157,7 @@ The underlying hardware handling on modern linux distribution is performed by a 
 | lsusb | This will list all currently connected usb devices, want to know if your printer is being picked up, run this command, unplug the printer and run it again |
 | dmesg | This is a log of things that the operating system is doing, this includes hardware connection and disconnection |
 | dmesg -w | this is like the command above but it will watch the output until closed with ctrl + c, try running this command and then plugging in a usb device |  
+| ls /dev/serial/by-id/ | list all of the serial devices connected to the host with by the friendly names assigned to them |
 
 # Services
 Like all operating systems linux uses background services to provide functionality which runs at boot up.
