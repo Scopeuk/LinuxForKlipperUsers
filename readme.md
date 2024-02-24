@@ -1,7 +1,8 @@
 # Foreword
 First and foremost, this is a work in progress and is incomplete, pull requests and feedback welcome
 
-This document aims to help a new user understand the commands they are likely to encounter in setup guides or similar, it necessarily skips over some element detail and nuance in favour of clarity.
+This document aims to help a new user understand the commands they are likely to encounter in setup guides or similar, it necessarily skips over some elements of detail and nuance in favour of clarity.
+The intention of this document is not to replace existing guides to instalation or update of klipper, that subject has been covered extensively and well elsewhere. Instead this document aims to let someone unfamiliar with linux understand what the commands guides are giving them to run do.
 This is not intended to be a be all and end all guide to any of these commands.
 As part of the short cuts taken guidance around system commands and application installation will focus on tools used by debian and it's derivatives (ubunutu, raspberry pi os etc) as these are the most commonly used distributions for new users.
 
@@ -25,6 +26,10 @@ In the event you open a command which doesn’t close itself (or runs for a long
 ## Case Sensitivity
 All linux commands and folder names are case sensitive, this means that file, File and FiLe are all different files and could be in the same directory, as this is for obvious reasons confusing people avoid names like this.
 This is of note because whilst ls will list the files in the current directory LS or Ls will result in a command not found error.
+
+## Tab Completion
+Whilst using the terminal it is possible to ask for your current command or command part to be finished for you. This is helpful with say long file names where you can type the first two or three letters and then press tab to complete the full name, if there are multiple options hitting tab twice will list all of them.
+This does not work with all commands but does work with almost all [file commands](# Finding your way around the file system) and [service commands](# Services).
 
 ## Sudo
 The sudo command is a powerful utility command which is used to perform tasks with elevated permissions, roughly analogous to run as administrator functionality on windows. sudo does not do anything directly but instead runs the command in its parameters under the "root" user, the top level administrator account for a linux machine.
@@ -144,12 +149,58 @@ The linux operating system maps all hardware devices are files, this may seem a 
 This affords some advantages in our use case.
 The underlying hardware handling on modern linux distribution is performed by a tool called udev. This uses a series of rules to create device files on the disk. All very confusing and "technical" but for us this means that a printer connected by a usb port will appear in the directory `/dev/serial/by-id/` and we can therefore use the `ls` command to look for devices in here, due to the magic of udev these will even frequently have helpful names including klipper or marlin in the device names.
 
-## Useful commands
+## Useful Commands
 | Command | Purpose |
 | ------------ | ------------ |
 | lsusb | This will list all currently connected usb devices, want to know if your printer is being picked up, run this command, unplug the printer and run it again |
 | dmesg | This is a log of things that the operating system is doing, this includes hardware connection and disconnection |
 | dmesg -w | this is like the command above but it will watch the output until closed with ctrl + c, try running this command and then plugging in a usb device |  
 
+# Services
+Like all operating systems linux uses background services to provide functionality which runs at boot up.
+In common use with klipper instalations there are a handful of services which we might interact with.
+On most modern linux discributions, including all common klipper host options services are managed through systemd.
+The finer details of what all of this means and how it works is not too important however commands come up for starting and stopping services so these are recorded below
+Most control of the services are done through the `systemctl` command
+
+## Why?
+These commands are not used in normal operation but can be helpful if a machine is not starting properly or during firmware flashing.
+A common use case is to stop the klipper service so that a firmware update tool can talk to the serial port used by the control board during an mcu firmware update.
+
+## General Structure
+`systemctl` commands are generally structured as `systemctl instruction service`
+where 
+| Part | Purpose |
+| ------------ | ------------ |
+| instruction | What you wish to do with the service for instance `start` or `stop` |
+| service | The name of the service we want to apply that command to common examples `klipper` `moonraker` |
+
+## Instructions
+This is an incomplete list of instructions for systemd and only aims to cover the main options in common use.
+| Instruction | Purpose |
+| ------------ | ------------ |
+| start | Starts a service which is currently stopped |
+| stop | Stops a service which is currently running |
+| restart | Stops and then (re)starts a service, this is how reloading klipper configuration files works under the hood |
+| status | Reports if a service is running, provides some limited information if it stoped unexpectedly |
+| enable | changes the default state of the service so that it runs at boot |
+| disable | turns the service off at boot (will require manualy starting) |
+
+## Service Names
+| Service | What it does |
+| ------------ | ------------ |
+| klipper | The main part of the klipper firmware and is responsible for turning gcode into machine movement and heating |
+| moonraker | The "api server" provides a connection between Klipper above and the common web interfaces below |
+| mainsail | Provide the web pages you land on when you access your machine over the network (if you use mainsail) |
+| fluidd | Provide the web pages you land on when you access your machine over the network (if you use fluid)
+
+## Example Systemd Commands
+
+| Command | Purpose |
+| ------------ | ------------ |
+| systemctl status klipper | Check if the klipper service is running |
+| systemctl stop klipper | Stop the klipper service |
+| systemctl start klipper | Start the klipper service |
+| systemctl restart moonraker| Stop and then re(start) the moonraker service |
 
 
