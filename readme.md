@@ -56,8 +56,9 @@ e.g. `ls --help`
   Usage example
 - `man ls` this will launch the manual tool pointed at the entry for the ls command
 
-# Finding your way around
+# Finding your way around the file system
 Assuming you have found your way into a terminal via ssh or the device its self the following commands should help with moving between folders or identifying where you are
+included here are also the comands for moving, copying and renaming files
 ## Magic symbols
 | Symbol | Meaning |
 | ------------ | ------------ |
@@ -71,10 +72,13 @@ Assuming you have found your way into a terminal via ssh or the device its self 
 |whoami| tells you your current username|
 |cd| "change directory" lets you move to another folder, accepts absolute and relative paths|
 |ls| lists the contents of the current folder|
+|cp| copy a file from parameter 1 to parameter 2 |
+|mv| move a file from parameter 1 to parameter 2 |
 
 ## common usage
 `cd ..` move up one folder i.e. from /home/me to /home
 `cd ~/klipper` move to the folder called klipper in the users home directory, frequently this is where klipper is installed by most people
+`mv out/klipper.bin out/firmware.bin` rename the generated firmware image from klipper.bin to firmware.bin, here the comand is assumed to be running from ~/klipper as this is where the firmware build commands normally run from
 
 # Git
 Git is a version control system, these are likely unfamiliar terms but for most of our usage this means that the git command can be used to make a copy of a folder from a git repository (like the one klipper is held in https://github.com/Klipper3d/klipper) or update the files in a repository we previously copied. The tool will track files it is made aware of and allow for copies of the "repository" or collection of files to be made and for any changes to be kept in sync, this is how updates made through mainsail or fluid work in the background.
