@@ -1,5 +1,6 @@
 # Foreword
 First and foremost, this is a work in progress and is incomplete, pull requests and feedback welcome
+Whilst this information remains accurate it will be left up. Development of this has moved to https://github.com/Scopeuk/3dPrintingNotes no information has been lost. the new repository is published in a prettier format at https://scopeuk.github.io/3dPrintingNotes/ this is probably the one you want if you are just reading the notes.
 
 This document aims to help a new user understand the commands they are likely to encounter in setup guides or similar, it necessarily skips over some elements of detail and nuance in favour of clarity.
 The intention of this document is not to replace existing guides to instalation or update of klipper, that subject has been covered extensively and well elsewhere.
